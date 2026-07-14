@@ -27,15 +27,32 @@ Respond ONLY with valid JSON in exactly this shape, no extra text, no markdown f
 
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
-    contents: [{ text: promptText }],
+    contents: [{ role: "user", parts: [{ text: promptText }] }],
+    config: {
+      responseMimeType: "application/json",
+    },
   });
-
+  console.log("Raw AI response:", response.text);
   try {
-    const rawText = response.text;
-    return JSON.parse(rawText);
+    const rawText = stripCodeFences(response.text);
+    return JSON.parse(fixBadEscapes(rawText));
   } catch (error) {
     console.error("Error parsing generated content:", error);
     throw error;
   }
 };
 
+function stripCodeFences(text) {
+  if (!text) return text;
+  return text
+    .trim()
+    .replace(/^```[a-zA-Z]*\s*/, "")
+    .replace(/```\s*$/, "")
+    .trim();
+}
+
+function fixBadEscapes(text) {
+  // Escapes any backslash that isn't part of a valid JSON escape sequence
+  // (this happens when the model outputs raw LaTeX like \frac, \int, etc.)
+  return text.replace(/\\(?!["\\/bfnrtu])/g, "\\\\");
+}
