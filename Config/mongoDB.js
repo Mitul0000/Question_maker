@@ -1,14 +1,14 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 
-const MongoDBConnect = mongoose
-  .connect(
-    "mongodb+srv://root:Mitul00%40@test.wp38ax2.mongodb.net/Question_generator?appName=Test",
-  )
-  .then(() => {
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
     console.log("MongoDB connected successfully");
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error("MongoDB connection error:", err);
-  });
+    process.exit(1);
+  }
+};
 
-module.exports = MongoDBConnect;
+module.exports = connectDB;

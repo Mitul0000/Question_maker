@@ -1,6 +1,6 @@
-import { GoogleGenAI } from "@google/genai";
+const { GoogleGenAI } =require("@google/genai");
 
-const extractTextFromFiles = async (files, api_key) => {
+exports.extractTextFromFiles = async (files, api_key) => {
   const ai = new GoogleGenAI({ apiKey: api_key });
 
   const fileParts = files.map((file) => ({

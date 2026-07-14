@@ -1,7 +1,7 @@
-const { CHUNK_SIZE, CHUNK_OVERLAP } = require("../Config/constants").constants;
-const { countTokens } = require("./tokenCounter");
+const { CHUNK_SIZE, CHUNK_OVERLAP } = require("../../Config/constants").constants;
+const { countTokens } = require("../tokenCounter");
 
-const chunkSections = (sections) => {
+exports.chunkSections = (sections) => {
   const chunks = [];
   let chunkIndex = 0;
 
@@ -64,5 +64,3 @@ const chunkSections = (sections) => {
 
   return chunks;
 };
-
-module.exports = { chunkSections };
