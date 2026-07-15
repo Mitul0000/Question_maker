@@ -1,12 +1,12 @@
-const puppeteer  =require("puppeteer")
+const puppeteer = require("puppeteer");
 
-exports.renderPdf = async (htmlString)=>{
-  const browser = await pupperteer.launch({
-    headless:true,
-    args:["--no-sandbox", "--disable-setuid-sandbox"]
-  })
+exports.renderPdf = async (htmlString) => {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
 
-   try {
+  try {
     const page = await browser.newPage();
     await page.setContent(htmlString, { waitUntil: "networkidle0" });
 
@@ -15,8 +15,9 @@ exports.renderPdf = async (htmlString)=>{
       printBackground: true,
       margin: { top: "20mm", bottom: "20mm", left: "15mm", right: "15mm" },
     });
+
     return pdfBuffer;
   } finally {
     await browser.close();
   }
-}
+};

@@ -1,4 +1,4 @@
-exports.assemblePaper = (selectedQuestions,metadata)=>{
+exports.assemblePaper = (selectedQuestions, metadata) => {
   const format = {
     mcq: "Multiple Choice Questions",
     shortAnswer: "Short Answer Questions",
@@ -10,9 +10,10 @@ exports.assemblePaper = (selectedQuestions,metadata)=>{
     .filter((key) => selectedQuestions[key] && selectedQuestions[key].length > 0)
     .map((key) => ({
       title: format[key],
-      questions: selectedQuestions[key].map((questions,index)=>({
+      type: key,
+      questions: selectedQuestions[key].map((questions, index) => ({
         ...questions,
-        number: index+1
+        number: index + 1,
       })),
     }));
 
