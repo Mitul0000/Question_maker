@@ -22,6 +22,8 @@ exports.postGenerateQuestion = async (req, res) => {
     // Step 2: Routing
     const route = decideRoute(fullText);
 
+    console.log("Routing decision:", route);
+
     let contentText;
     let sessionId = null;
 

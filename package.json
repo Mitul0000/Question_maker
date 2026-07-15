@@ -17,6 +17,7 @@
     "mongodb": "^7.5.0",
     "mongoose": "^9.7.4",
     "multer": "^2.2.0",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "puppeteer": "^25.3.0"
   }
 }

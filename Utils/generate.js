@@ -2,6 +2,7 @@ const { GoogleGenAI } = require("@google/genai");
 
 exports.generateQuestions = async (contentText, requirements, api_key) => {
   const ai = new GoogleGenAI({ apiKey: api_key });
+  console.log("Generating questions with requirements:", requirements);
 
   const promptText = `
 You are generating exam questions from the following academic content.
@@ -52,7 +53,8 @@ function stripCodeFences(text) {
 }
 
 function fixBadEscapes(text) {
-  // Escapes any backslash that isn't part of a valid JSON escape sequence
-  // (this happens when the model outputs raw LaTeX like \frac, \int, etc.)
-  return text.replace(/\\(?!["\\/bfnrtu])/g, "\\\\");
+  return text.replace(
+    /\\u[0-9a-fA-F]{4}|\\["\\/bfnrt]|\\/g,
+    (match) => (match.length === 1 ? "\\\\" : match),
+  );
 }

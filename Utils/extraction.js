@@ -60,5 +60,14 @@ function stripCodeFences(text) {
 function fixBadEscapes(text) {
   // Escapes any backslash that isn't part of a valid JSON escape sequence
   // (this happens when the model outputs raw LaTeX like \frac, \int, etc.)
-  return text.replace(/\\(?!["\\/bfnrtu])/g, "\\\\");
+  //
+  // Important: this must CONSUME valid escape sequences (e.g. \\, \n, \uXXXX)
+  // as whole units. A lookahead-only regex would "peek" at the second
+  // character of a valid pair (like \\) without consuming it, causing that
+  // character to be re-evaluated on its own as a fresh backslash - which
+  // corrupts already-valid escapes such as \\circ (-> \\\circ).
+  return text.replace(
+    /\\u[0-9a-fA-F]{4}|\\["\\/bfnrt]|\\/g,
+    (match) => (match.length === 1 ? "\\\\" : match),
+  );
 }
