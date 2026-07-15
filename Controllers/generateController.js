@@ -27,7 +27,7 @@ exports.postGenerateQuestion = async (req, res) => {
     let contentText;
     let sessionId = null;
 
-    if (route === "direct") {
+    if (route === "Direct") {
       contentText = fullText;
     } else {
       // RAG path
